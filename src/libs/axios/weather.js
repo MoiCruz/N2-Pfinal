@@ -1,8 +1,6 @@
 import instance from "./instance";
 
-// const token = import.meta.env.VITE_API_KEY
-
-const token = 'b977405b783cdcf81187d4476707f704'
+const token = import.meta.env.VITE_API_KEY
 console.log(token);
 
 export async function current(lat=14.9, lon=-92.2667){
