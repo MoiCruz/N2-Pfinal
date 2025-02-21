@@ -1,6 +1,15 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { forecast } from '../../libs/axios/weather'
 
 export default function RigthColumn() {
+  const [prediction, setPrediction] = useState([])
+  useEffect(() => {
+    forecast()
+    .then((rs) => setPrediction(rs.data))
+    .catch((error) =>
+    console.log(error))
+
+  },[])
   return (
     <>
      <div className='bg-[#100E1D] flex flex-col md:items-center h-full w-full md:w-5/7 p-3 gap-5 pt-9'>
@@ -11,7 +20,7 @@ export default function RigthColumn() {
           <div className='flex flex-wrap gap-5 justify-start px-9'>
             <div className='flex flex-col justify-center items-center gap-2 py-5 bg-[#1E213A] h-38 w-29'>
               <h1 className='text-white size-25 text-center'>tomorrow</h1>
-              <img src="../public/weatherapp/weather/09d.png" alt="" className='w-16 h-14' />
+              <img src="../weatherapp/weather/09d.png" alt="" className='w-16 h-14' />
               <div className='flex gap-2 justify-center'>
                 <div className='text-white'>32°c</div>
                 <div className='text-[#88869D]'>22°c</div>
@@ -19,7 +28,7 @@ export default function RigthColumn() {
             </div>
             <div className='flex flex-col justify-center items-center gap-2 py-5 bg-[#1E213A] h-38 w-29'>
               <h1 className='text-white size-25 text-center'>Thu, 20 Feb</h1>
-              <img src="/public/weatherapp/weather/09d.png" alt="" className='w-16 h-14' />
+              <img src="/weatherapp/weather/09d.png" alt="" className='w-16 h-14' />
               <div className='flex gap-2 justify-center'>
                 <div className='text-white'>32°c</div>
                 <div className='text-[#88869D]'>22°c</div>
@@ -27,7 +36,7 @@ export default function RigthColumn() {
             </div>
             <div className='flex flex-col justify-center items-center gap-2 py-5 bg-[#1E213A] h-38 w-29'>
               <h1 className='text-white size-25 text-center'>Fri, 21 Feb</h1>
-              <img src="/public/weatherapp/weather/09d.png" alt="" className='w-16 h-14' />
+              <img src="/weatherapp/weather/09d.png" alt="" className='w-16 h-14' />
               <div className='flex gap-2 justify-center'>
                 <div className='text-white'>32°c</div>
                 <div className='text-[#88869D]'>22°c</div>
@@ -35,7 +44,7 @@ export default function RigthColumn() {
             </div>
             <div className='flex flex-col justify-center items-center gap-2 py-5 bg-[#1E213A] h-38 w-29'>
               <h1 className='text-white size-25 text-center'>Sat, 22 Feb</h1>
-              <img src="/public/weatherapp/weather/09d.png" alt="" className='w-16 h-14' />
+              <img src="/weatherapp/weather/09d.png" alt="" className='w-16 h-14' />
               <div className='flex gap-2 justify-center'>
                 <div className='text-white'>32°c</div>
                 <div className='text-[#88869D]'>22°c</div>
@@ -43,7 +52,7 @@ export default function RigthColumn() {
             </div>
             <div className='flex flex-col justify-center items-center gap-2 py-5 bg-[#1E213A] h-38 w-29'>
               <h1 className='text-white size-25 text-center'>Sun, 23 Feb</h1>
-              <img src="/public/weatherapp/weather/09d.png" alt="" className='w-16 h-14' />
+              <img src="/weatherapp/weather/09d.png" alt="" className='w-16 h-14' />
               <div className='flex gap-2 justify-center'>
                 <div className='text-white'>32°c</div>
                 <div className='text-[#88869D]'>22°c</div>
@@ -65,14 +74,14 @@ export default function RigthColumn() {
               </div>
               <div className='flex justify-center items-center gap-3'>
                 <div className='bg-[#88869D] size-8 rounded-full flex justify-center items-center'>
-                  <img src="../public/weatherapp/navigation.svg" alt="" className='size-4' />
+                  <img src="../weatherapp/navigation.svg" alt="" className='size-4' />
                 </div>
                 <p>N</p>
               </div>
 
             </div>
             <div className='flex flex-col justify-center items-center text-white bg-[#1E213A] h-48 w-80'>
-              <p className='text-md'>Humidity</p>
+              <p className='text-md'>HumVITE_API_KEY=b977405b783cdcf81187d4476707f704idity</p>
               <div className='flex my-4'>
                 <div className='text-6xl font-extrabold'>94</div>
                 <div className='text-4xl'>%</div>

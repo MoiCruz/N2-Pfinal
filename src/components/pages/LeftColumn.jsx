@@ -5,6 +5,7 @@ import { current } from '../../libs/axios/weather';
 
 
 
+
 export function LeftColumn() {
     const [openSearch, setOpenSearch] = useState(false)
             
@@ -13,14 +14,14 @@ export function LeftColumn() {
 
     useEffect(()=>{
         current()
-        .then((rs) => console.log(rs))
+        .then((result) => console.log(result))
         .catch((error) => console.log(error))
         console.log();
     },[])
             return(
                 <>
             {!openSearch && (
-                <div className='relative bg-[#1E213A] flex flex-col w-full h-168 md:h-full md:w-2/7'>
+                <div className=' bg-[#1E213A] flex flex-col w-full h-168 md:h-full md:w-2/7'>
                     <div className='flex justify-between gap-7 px-8 md:px-17 pt-7 '>
                         <button className='bg-[#6E707A] text-white w-48 h-9 cursor-pointer text-center' onClick={openModal}>Search for Places</button>
                         <button className='bg-[#ffffff33] flex size-10 rounded-full cursor-pointer justify-center items-center'>
@@ -41,7 +42,7 @@ export function LeftColumn() {
                         <h2 className='text-[#A09FB1] text-3xl font-semibold my-9 md:my-15'>Scattered Clouds</h2>
                         <p className='text-[#88869D] text-sm'>Today &nbsp;&nbsp; . &nbsp;&nbsp; Mon. 17 Feb</p>
                         <div className='text-[#88869D] flex gap-2 text-sm mt-7 md:mt-12'>
-                            <img src="../public/weatherapp/location_on.svg" alt="" className='size-5' />Suchiate</div>
+                            <img src="../weatherapp/location_on.svg" alt="" className='size-5' />Suchiate</div>
                     </div>
                 </div>
             )}
