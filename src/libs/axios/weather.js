@@ -1,8 +1,10 @@
 import instance from "./instance";
 
-const token = import.meta.env.VITE_API_KEY
-console.log("VITE_API_KEY:", token)
-console.log(import.meta.env.VITE_API_KEY)
+// const token = import.meta.env.VITE_API_KEY
+
+const token = 'b977405b783cdcf81187d4476707f704'
+console.log(token);
+
 export async function current(lat=14.9, lon=-92.2667){
     try{
         const {status, data} = await instance.get(`weather?lat=${lat}&lon=${lon}&appid=${token}`)
