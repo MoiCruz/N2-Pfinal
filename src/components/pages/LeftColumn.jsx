@@ -4,17 +4,16 @@ import { Modal } from './Modal';
 import { current } from '../../libs/axios/weather';
 
 
-
-
 export function LeftColumn() {
     const [openSearch, setOpenSearch] = useState(false)
+    const [todayweather, setTodayWeather] = useState([])
             
     const openModal = () => { setOpenSearch(true) }
     const closeModal = () => { setOpenSearch(false) }
 
     useEffect(()=>{
         current()
-        .then((result) => console.log(result))
+        .then((result) => {setTodayWeather(result.data)})
         .catch((error) => console.log(error))
         console.log();
     },[])
@@ -28,27 +27,49 @@ export function LeftColumn() {
                             <img src="../weatherapp/location.svg" alt="" className='size-6' />
                         </button>
                     </div>
-                    <div className='text-white relative flex justify-center items-center w-full h-53 md:h-80 overflow-x-hidden'>
-                        <div className='h-full w-full'>
-                            <img src="../weatherapp/others/Cloud-background.png" alt="" className=' opacity-10 h-50 md:h-80 md:w-135 object-cover w-100' />
-                        </div>
-                        <img src="../weatherapp/weather/03d.png" alt="" className='absolute w-2/5 mb-6' />
-                    </div>
-                    <div className='text-white flex flex-col items-center h-92'>
-                        <div className='flex items-center pt-12 md:pt-20'>
-                            <div className='text-white text-8xl font-semibold'>30</div>
-                            <div className='text-[#A09FB1] text-6xl'>°C</div>
-                        </div>
-                        <h2 className='text-[#A09FB1] text-3xl font-semibold my-9 md:my-15'>Scattered Clouds</h2>
-                        <p className='text-[#88869D] text-sm'>Today &nbsp;&nbsp; . &nbsp;&nbsp; Mon. 17 Feb</p>
-                        <div className='text-[#88869D] flex gap-2 text-sm mt-7 md:mt-12'>
-                            <img src="../weatherapp/location_on.svg" alt="" className='size-5' />Suchiate</div>
-                    </div>
+                    {todayweather && todayweather.name && (
+                        <CurrentWeather
+                        key={todayweather.dt}
+                        img={`../weatherapp/weather/${todayweather.weather[0].icon}.png`}
+                        date={new Date(todayweather.dt * 1000)}
+                        description={todayweather.weather[0].description}
+                        temp={todayweather.main.temp}
+                        city={todayweather.name}
+                        />
+                    )}
                 </div>
             )}
             {openSearch && <Modal closeModal={closeModal} />}
             </>
         )
+    }
+
+        function CurrentWeather ({img, date, description, temp, city}){
+
+            const realDate = date.toLocaleDateString()
+
+            return(          
+                <>
+                <div className='text-white relative flex justify-center items-center w-full h-53 md:h-80 overflow-x-hidden'>
+                        <div className='h-full w-full'>
+                            <img src="../weatherapp/others/Cloud-background.png" alt="" className=' opacity-10 h-50 md:h-80 md:w-135 object-cover w-100' />
+                        </div>
+                        <img src={img} alt="" className='absolute w-2/5 mb-6' />
+                    </div>
+                    <div className='text-white flex flex-col items-center h-92'>
+                        <div className='flex items-center pt-12 md:pt-20'>
+                            <div className='text-white text-8xl font-semibold'>{temp}</div>
+                            <div className='text-[#A09FB1] text-6xl'>°C</div>
+                        </div>
+                        <h2 className='text-[#A09FB1] text-3xl font-semibold my-9 md:my-15'>{description}</h2>
+                        <p className='text-[#88869D] text-sm'>Today &nbsp;&nbsp; . &nbsp;&nbsp; {realDate}</p>
+                        <div className='text-[#88869D] flex gap-2 text-sm mt-7 md:mt-12'>
+                            <img src="../weatherapp/location_on.svg" alt="" className='size-5' />{city}</div>
+                    </div>
+                
+                </>
+
+            )
         }
 
 

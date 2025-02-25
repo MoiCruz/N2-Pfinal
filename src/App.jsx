@@ -10,6 +10,8 @@ import ReportToday from './components/pages/ReportToday'
 
 
 export default function App() {
+
+
   return (
     <>
 
@@ -19,6 +21,9 @@ export default function App() {
           <DegreeButtons />
           <FiveDays />
           <ReportToday />
+          <div className='flex justify-center'>
+            <h1 className='text-white text-sm'>Created by MoisesCruz</h1>
+          </div>
         </div>
       </div>
 

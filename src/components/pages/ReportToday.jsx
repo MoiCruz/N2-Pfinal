@@ -1,6 +1,26 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { current } from '../../libs/axios/weather';
 
 export function ReportToday() {
+   const [todayweather, setTodayWeather] = useState(null)
+
+   useEffect(() => {
+    current()
+      .then((result) => setTodayWeather(result.data))
+      .catch((error) => console.log(error));
+  }, [])
+
+  if (!todayweather){
+    return null
+  }
+
+  const windSpeed = todayweather.wind.speed || 0
+  const windDeg = todayweather.wind.deg || 0
+  const humidity = todayweather.main.humidity || 0
+  const visibility = todayweather.visibility || 0
+  const pressure = todayweather.main.pressure || 0
+
+
   return (
     <>
     <div>
@@ -12,7 +32,7 @@ export function ReportToday() {
             <div className='flex flex-col justify-center items-center text-white bg-[#1E213A] h-48 w-80'>
               <p className=''>Wind status</p>
               <div className='flex my-4 items-center'>
-                <div className='text-6xl font-extrabold'>0.00</div>
+                <div className='text-6xl font-extrabold'>{windSpeed}</div>
                 <div className='text-4xl'>ms</div>
               </div>
               <div className='flex justify-center items-center gap-3'>
@@ -26,7 +46,7 @@ export function ReportToday() {
             <div className='flex flex-col justify-center items-center text-white bg-[#1E213A] h-48 w-80'>
               <p className='text-md'>Humidity</p>
               <div className='flex my-4'>
-                <div className='text-6xl font-extrabold'>94</div>
+                <div className='text-6xl font-extrabold'>{humidity}</div>
                 <div className='text-4xl'>%</div>
               </div>
               <div className='flex flex-col w-[70%]'>
@@ -47,7 +67,7 @@ export function ReportToday() {
             <div className='flex flex-col text-white bg-[#1E213A] h-39 w-80 justify-center items-center gap-6'>
               <p className=''>Visibility</p>
               <div className='flex items-center'>
-                <div className='text-6xl font-extrabold'>10.00</div>
+                <div className='text-6xl font-extrabold'>{visibility}</div>
                 <div className='text-4xl'>km</div>
               </div>
 
@@ -55,15 +75,13 @@ export function ReportToday() {
             <div className='flex flex-col text-white bg-[#1E213A] h-39 w-80 justify-center items-center gap-6'>
               <p className=''>Air Pressure</p>
               <div className='flex items-center'>
-                <div className='text-6xl font-extrabold'>1013</div>
+                <div className='text-6xl font-extrabold'>{pressure}</div>
                 <div className='text-4xl'>mb</div>
               </div>
 
             </div>
           </div>
-          <div className='flex justify-center'>
-            <h1 className='text-white text-sm'>Created by MoisesCruz</h1>
-          </div>
+          
     
     
     

@@ -1,24 +1,37 @@
 import instance from "./instance";
 
 const token = import.meta.env.VITE_API_KEY
-console.log(token);
 
+ 
 export async function current(lat=14.9, lon=-92.2667){
     try{
-        const {status, data} = await instance.get(`weather?lat=${lat}&lon=${lon}&appid=${token}`)
+        const {status, data} = await instance.get(`data/2.5/weather?lat=${lat}&lon=${lon}&appid=${token}`)
         return {status, data}
     }
     catch(error){
+        console.error(error)
         throw error
     }
 }
-console.log(token);
+
+export async function populations (city= "Tapachula", state= "Chiapas", country= "MX"){
+    try{
+        const {status, data} = await instance.get(`geo/1.0/direct?q=${city},${state},${country}&appid=${token}`)
+        return {status, data}
+    }
+    catch(error){
+        console.error(error)
+        throw error
+    }
+}
+
 
 export async function forecast(lat=14.9, lon=-92.2667){
     try{
-        const {status, data} = await instance.get(`forecast?lat=${lat}&lon=${lon}&appid=${token}`)
+        const {status, data} = await instance.get(`data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${token}`)
         const result = []
         const current = new Date()
+
         function exist(item) {
             return result.some((element) => {
                 const date = new Date(element.dt *1000)
@@ -44,6 +57,7 @@ export async function forecast(lat=14.9, lon=-92.2667){
    
     }
     catch(error){
+        console.error(error)
         throw error
     }
 }
