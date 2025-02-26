@@ -7,23 +7,42 @@ import { current } from '../../libs/axios/weather';
 export function LeftColumn() {
     const [openSearch, setOpenSearch] = useState(false)
     const [todayweather, setTodayWeather] = useState([])
-            
+    const [geo, setgeo] = useState({lat:14.9 ,lon:-92.2667})
+    
     const openModal = () => { setOpenSearch(true) }
     const closeModal = () => { setOpenSearch(false) }
 
     useEffect(()=>{
-        current()
+        current(geo.lat, geo.lon)
         .then((result) => {setTodayWeather(result.data)})
         .catch((error) => console.log(error))
         console.log();
-    },[])
+    },[geo])
+
+   function success(position) {
+        setgeo({lat:position.coords.latitude, lon:position.coords.longitude})
+      }
+      
+      function error() {
+        alert("Sorry, no position available.");
+      }
+      
+      const options = {
+        enableHighAccuracy: true,
+        maximumAge: 30000,
+        timeout: 27000,
+      }
+      const updateGeo = () => navigator.geolocation.watchPosition(success, error, options)
+      
+
             return(
                 <>
             {!openSearch && (
                 <div className=' bg-[#1E213A] flex flex-col w-full h-168 md:h-full md:w-2/7'>
                     <div className='flex justify-between gap-7 px-8 md:px-17 pt-7 '>
                         <button className='bg-[#6E707A] text-white w-48 h-9 cursor-pointer text-center' onClick={openModal}>Search for Places</button>
-                        <button className='bg-[#ffffff33] flex size-10 rounded-full cursor-pointer justify-center items-center'>
+                        <button className='bg-[#ffffff33] flex size-10 rounded-full cursor-pointer justify-center items-center'
+                                 onClick={updateGeo}>
                             <img src="../weatherapp/location.svg" alt="" className='size-6' />
                         </button>
                     </div>
@@ -42,7 +61,7 @@ export function LeftColumn() {
             {openSearch && <Modal closeModal={closeModal} />}
             </>
         )
-    }
+}
 
         function CurrentWeather ({img, date, description, temp, city}){
 

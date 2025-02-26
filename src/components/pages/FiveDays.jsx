@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { forecast } from '../../libs/axios/weather'
+import DegreeButtons from './DegreeButtons'
 
 export default function FiveDays() {
   const [prediction, setPrediction] = useState([])
+  const [celcius, setCelcius] = useState(true)
+
   useEffect(() => {
     forecast()
       .then((rs) => {
@@ -12,17 +15,25 @@ export default function FiveDays() {
         console.log(error))
 
   }, [])
+
   return (
     <>
+     <DegreeButtons 
+        setCelcius={setCelcius}
+      />
+
+  
       <div className='flex flex-wrap gap-5 justify-start px-9'>
-        {prediction && prediction.slice(0, 5).map((item, index) =>
+        {prediction && prediction.slice(1, 6).map((item, index) =>
           <ForecastFile
             key={item.dt}
             img={`weatherapp/weather/${item.weather[0].icon}.png`}
             index={index}
             date={item.dt_txt}
-            temp={item.main.temp_min}
-            temp2={item.main.temp_max}
+            tempMin={item.main.temp_min}
+            tempMax={item.main.temp_max}
+            celcius={celcius}
+            
 
           />
         )}
@@ -32,26 +43,55 @@ export default function FiveDays() {
     </>
   )
 }
-export function ForecastFile({ img, index, date, temp, temp2 }) {
+
+
+
+
+
+export function ForecastFile({ img, index, date, tempMin, tempMax, celcius }) {
   const day = new Date(date)
   day.setDate(day.getDate() + index)
   const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
   const dayName = daysOfWeek[day.getDay()]
 
+  const minCelsius = (tempMin - 273.15).toFixed(0)
+  const maxCelsius = (tempMax - 273.15).toFixed(0)
+  
+  const minFahrenheit = ((tempMin - 273.15) * 9 / 5 + 32).toFixed(0)
+  const maxFahrenheit = ((tempMax - 273.15) * 9 / 5 + 32).toFixed(0)
+
   return (
     <>
+     
       <div className='flex flex-col justify-center items-center gap-2 py-5 bg-[#1E213A] h-38 w-29'>
         <h1 className='text-white size-25 text-center'>{index === 0 ? "Tomorrow" : dayName}</h1>
         <img src={img} alt="icons" className='w-16 h-14' />
         <div className='flex gap-2 justify-center'>
-          <div className='flex'>
-            <div className='text-white'>{temp}</div>
+
+          {celcius? (
+            <>
+            <div className='flex'>
+            <div className='text-white'>{minCelsius}</div>
             <div className='text-white'>°c</div>
           </div>
           <div className='flex'>
-            <div className='text-[#88869D]'>{temp2}</div>
+            <div className='text-[#88869D]'>{maxCelsius}</div>
             <div className='text-[#88869D]'>°c</div>
           </div>
+          </>
+          ):(
+          <>
+            <div className='flex'>
+            <div className='text-white'>{minFahrenheit}</div>
+            <div className='text-white'>°c</div>
+          </div>
+          
+          <div className='flex'>
+            <div className='text-[#88869D]'>{maxFahrenheit}</div>
+            <div className='text-[#88869D]'>°c</div>
+          </div>
+          </>
+          )}
         </div>
       </div>
 

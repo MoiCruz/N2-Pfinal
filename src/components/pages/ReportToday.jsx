@@ -56,7 +56,7 @@ export function ReportToday() {
                   <p className='text-xs'>100</p>
                 </div>
                 <div className='bg-white flex justify-start w-full h-2 rounded-xl'>
-                  <div className='flex bg-amber-300 h-2 w-[85%] rounded-xl'></div>
+                  <div className='flex bg-amber-300 h-2 rounded-xl' style={{width: `${todayweather?.main?.humidity}%`}}></div>
                 </div>
                 <div className='flex w-full text-ms justify-end'>%</div>
               </div>
