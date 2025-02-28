@@ -3,7 +3,7 @@ import instance from "./instance";
 const token = import.meta.env.VITE_API_KEY
 
  
-export async function current(lat=14.9, lon=-92.2667){
+export async function current(lat, lon){
     try{
         const {status, data} = await instance.get(`data/2.5/weather?lat=${lat}&lon=${lon}&appid=${token}`)
         return {status, data}
@@ -14,9 +14,9 @@ export async function current(lat=14.9, lon=-92.2667){
     }
 }
 
-export async function populations (city= "Tapachula", state= "Chiapas", country= "MX"){
+export async function populations (city, country){
     try{
-        const {status, data} = await instance.get(`geo/1.0/direct?q=${city},${state},${country}&appid=${token}`)
+        const {status, data} = await instance.get(`geo/1.0/direct?q=${city},${country}&appid=${token}`)
         return {status, data}
     }
     catch(error){
@@ -25,8 +25,7 @@ export async function populations (city= "Tapachula", state= "Chiapas", country=
     }
 }
 
-
-export async function forecast(lat=14.9, lon=-92.2667){
+export async function forecast(lat, lon){
     try{
         const {status, data} = await instance.get(`data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${token}`)
         const result = []
@@ -43,8 +42,8 @@ export async function forecast(lat=14.9, lon=-92.2667){
             const date = new Date(item.dt * 1000);
             if(
                 ((current.getDate() < date.getDate()) ||
-                (current.getMonth() <= date.getMonth()) ||
-                (current.getFullYear() <= date.getFullYear())
+                (current.getMonth() < date.getMonth()) ||
+                (current.getFullYear() < date.getFullYear())
             ) && !exist(item)
             ){
                 result.push(item)

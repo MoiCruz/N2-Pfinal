@@ -1,14 +1,8 @@
-import React, { useEffect, useState } from 'react'
-import { current } from '../../libs/axios/weather';
+import React, { useContext } from 'react'
+import { WeatherContext } from '../../context/WeatherProvider'
 
 export function ReportToday() {
-   const [todayweather, setTodayWeather] = useState(null)
-
-   useEffect(() => {
-    current()
-      .then((result) => setTodayWeather(result.data))
-      .catch((error) => console.log(error));
-  }, [])
+  const { todayweather, conversion} = useContext(WeatherContext)
 
   if (!todayweather){
     return null
@@ -20,6 +14,14 @@ export function ReportToday() {
   const visibility = todayweather.visibility || 0
   const pressure = todayweather.main.pressure || 0
 
+  let milesToMeters = 0.000621371
+  let secondToHour = 3600
+  let kmToMeter = 1000
+
+  const mph = (windSpeed * (secondToHour / 1) * milesToMeters).toFixed(2)
+  const kilometers = (visibility / kmToMeter).toFixed(2)
+  const miles = (kilometers * (milesToMeters * kmToMeter)).toFixed(2)
+   
 
   return (
     <>
@@ -31,10 +33,18 @@ export function ReportToday() {
           <div className='flex flex-col md:flex-row gap-6 items-center '>
             <div className='flex flex-col justify-center items-center text-white bg-[#1E213A] h-48 w-80'>
               <p className=''>Wind status</p>
+              {conversion? (
               <div className='flex my-4 items-center'>
                 <div className='text-6xl font-extrabold'>{windSpeed}</div>
                 <div className='text-4xl'>ms</div>
               </div>
+              ):(
+              <div className='flex my-4 items-center'>
+                <div className='text-6xl font-extrabold'>{mph}</div>
+                <div className='text-4xl'>mph</div>
+              </div>
+              )
+            }
               <div className='flex justify-center items-center gap-3'>
                 <div className='bg-[#88869D] size-8 rounded-full flex justify-center items-center'>
                   <img src="../weatherapp/navigation.svg" alt="" className='size-4' />
@@ -66,11 +76,18 @@ export function ReportToday() {
           <div className='flex flex-col md:flex-row gap-6 items-center justify-center'>
             <div className='flex flex-col text-white bg-[#1E213A] h-39 w-80 justify-center items-center gap-6'>
               <p className=''>Visibility</p>
+              {conversion? (
               <div className='flex items-center'>
-                <div className='text-6xl font-extrabold'>{visibility}</div>
+                <div className='text-6xl font-extrabold'>{kilometers}</div>
                 <div className='text-4xl'>km</div>
               </div>
-
+              ):(
+              <div className='flex items-center'>
+                <div className='text-6xl font-extrabold'>{miles}</div>
+                <div className='text-4xl'>miles</div>
+              </div>
+              )
+            }
             </div>
             <div className='flex flex-col text-white bg-[#1E213A] h-39 w-80 justify-center items-center gap-6'>
               <p className=''>Air Pressure</p>
@@ -81,12 +98,7 @@ export function ReportToday() {
 
             </div>
           </div>
-          
-    
-    
-    
     </>
-
 
   )
 }

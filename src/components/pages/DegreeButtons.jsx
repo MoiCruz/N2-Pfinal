@@ -1,17 +1,15 @@
-// import React, { useContext } from 'react'
-// import { TempContext } from '../../context/TempContext' 
+import React, { useContext } from 'react'
+import { WeatherContext } from '../../context/WeatherProvider'
 
-import React from 'react'
-
-export default function DegreeButtons({setCelcius}) {
-    // const { degreeCelcius, degreeFahrenheit} = useContext(TempContext)
+export default function DegreeButtons() {
+    const { setConversion } = useContext(WeatherContext)
   
- function degreeCelcius() {
-    setCelcius(true)
+function degreeCelcius() {
+    setConversion(true)
    
 }
 function degreeFahrenheit() {
-    setCelcius(false)
+    setConversion(false)
   
 }
 

@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from 'react'
-import { populations } from '../../libs/axios/weather';
+import React, { useContext } from 'react'
+import { WeatherContext } from '../../context/WeatherProvider';
 
 export function Modal({ closeModal }) {
-    const [searchCity, setSearchCity] = useState('')
-    const [locationDetails, setLocationDetails] = useState(null)
-    const [clickSearch, setClickSearch] = useState(false)
+    const { searchCity, setSearchCity, locationDetails, setClickSearch} = useContext(WeatherContext)
 
     const locationSearch = (e) => { setSearchCity(e.target.value) }
     const searchButton = () => {
@@ -13,27 +11,7 @@ export function Modal({ closeModal }) {
         }
     }
 
-    useEffect(() => {
-        if (clickSearch) {
-            populations(searchCity)
-                .then((result) => {
-                    if (result.data && result.data[0]) {
-                        setLocationDetails(result.data[0])
-                    } else {
-                        setLocationDetails(null)
-                    }
-                })
-                .catch((error) => {
-                    console.log(error)
-                    setLocationDetails(null)
-
-                })
-                .finally(() => setClickSearch(false))
-        }
-    }, [searchCity, clickSearch])
-
     const city = locationDetails ? locationDetails.name : ''
-    // const state = locationDetails ? locationDetails.state : ''
     const country = locationDetails ? locationDetails.country : ''
 
     return (
