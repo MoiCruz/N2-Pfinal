@@ -45,6 +45,7 @@ export function LeftColumn() {
                             description={todayweather.weather[0].description}
                             temp={todayweather.main.temp}
                             city={todayweather.name}
+                           
                         />
                     )}
                 </div>

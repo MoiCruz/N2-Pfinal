@@ -12,6 +12,8 @@ export function WeatherProvider({ children }) {
  const [searchCity, setSearchCity] = useState('')
  const [locationDetails, setLocationDetails] = useState(null)
  const [clickSearch, setClickSearch] = useState(false)
+
+
  
  useEffect(() => {
     if (clickSearch && searchCity) {
